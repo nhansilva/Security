@@ -1,0 +1,48 @@
+package vn.com.security.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+import java.time.Instant;
+
+/**
+ * @author NhanVT3
+ */
+// Định nghĩa 1 class có thông tin cho các lơp con ánh xạ mà ko tạo bảng riêng
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(
+        value = {"createdAt", "updatedAt"},
+        allowGetters = true
+)
+public abstract class DateAudit implements Serializable {
+
+    private static final long serialVersionUID = 7057093561543456944L;
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}
